@@ -33,6 +33,7 @@ public class MainService {
             }
         }
 
+
         result.put("classes", classesList); // Adiciona a lista de classes ao HashMap
         return result;
     }
