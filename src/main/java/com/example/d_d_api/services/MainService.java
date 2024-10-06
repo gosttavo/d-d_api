@@ -1,40 +1,41 @@
 package com.example.d_d_api.services;
 
+import com.example.d_d_api.models.ClassModel;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class MainService {
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String apiUrl = "https://www.dnd5eapi.co/api/classes";
 
-    public MainService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public ClassModel getClasseByIndex(String index) {
+        try {
+            String url = apiUrl + "/" + index;
+
+            return restTemplate.getForObject(url, ClassModel.class);
+        } catch (HttpClientErrorException e) {
+            return null;
+        }
     }
 
-    public HashMap<String, ArrayList<HashMap<String,String>>> getClasses(String index) {
-        String url = "https://www.dnd5eapi.co/api/classes"; // URL para obter todas as classes
-        Map<String, Object> response = restTemplate.getForObject(url, Map.class); // Fazendo a requisição
+    public List<ClassModel> getClasses() {
+        Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
+        List<ClassModel> classes = (List<ClassModel>) response.get("results");
+        return classes;
+    }
 
-        HashMap<String, ArrayList<HashMap<String, String>>> result = new HashMap<>();
-        ArrayList<HashMap<String, String>> classesList = new ArrayList<>();
+    public HashMap<String, String> sobre() {
+        HashMap<String, String> info = new HashMap<>();
+        info.put("projeto", "API D&D");
+        info.put("nome", "Gustavo Goulart");
+        info.put("codigo", "202222216");
 
-        if (response != null && response.containsKey("results")) {
-            List<Map<String, String>> results = (List<Map<String, String>>) response.get("results");
-            for (Map<String, String> dndClass : results) {
-                HashMap<String, String> classMap = new HashMap<>();
-                classMap.put("index", dndClass.get("index"));
-                classMap.put("name", dndClass.get("name"));
-                classesList.add(classMap);
-            }
-        }
-
-
-        result.put("classes", classesList); // Adiciona a lista de classes ao HashMap
-        return result;
+        return info;
     }
 }
