@@ -6,20 +6,47 @@
 - **Método:** `GET`
 - **Endpoint:** `/classes`
 - **Descrição:** Retorna a lista de classes disponíveis no sistema.
+  
+- **Response:**
+  ```json
+  [
+    {
+      "index": "barbarian",
+      "name": "Barbarian",
+      "url": "/api/classes/barbarian"
+    }
+  ]
 
 ### 2. **Sobre o Aluno**
 - **Método:** `GET`
 - **Endpoint:** `/sobre`
 - **Descrição:** Retorna os dados sobre o aluno.
+  
+- **Response:**
+  ```json
+  {
+      "codigo": "202222216",
+      "projeto": "API D&D",
+      "nome": "Gustavo Goulart"
+  }
 
 ### 3. **Selecionar Classe**
 - **Método:** `POST`
 - **Endpoint:** `/class`
 - **Descrição:** Retorna a classe escolhida pelo seu index.
+  
 - **Body Exemplo:**
   ```json
   {
     "index": "barbarian"
+  }
+  
+- **Response:**
+  ```json
+  {
+      "index": "barbarian",
+      "name": "Barbarian",
+      "url": "/api/classes/barbarian"
   }
 
 ## 🌟 Como usar
